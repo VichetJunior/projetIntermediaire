@@ -9,7 +9,6 @@ angular.module('favoriteApp', [])
             category: 0
         };
 
-
         $scope.mode = 'view';
 
         $scope.favorite = {};
@@ -25,9 +24,23 @@ angular.module('favoriteApp', [])
                     category: $scope.realCategories[idx].id
                 }
             }
+
+            if (text === 'edit'){
+                console.log('its ok')
+            }
             $scope.mode = text;
         }
 
+        $scope.update = function(f){
+            $scope.favorite = {id: f.id, link: f.link, name: f.name, category: f.category.id};
+            $scope.realCategories = $scope.categories.filter(function(c) { return c.id !== 0 });
+            var idx = $scope.realCategories.map(function(c) { return c.id }).indexOf($scope.filter.category );
+            console.log($scope.favorite)
+            $scope.setMode('edition');
+
+
+//            console.log(favorite.id, favorite.name, favorite.link, favorite.updatedDate, favorite.category)
+        }
 
         $scope.cancel = function() {
             $scope.setMode('view');
@@ -35,7 +48,7 @@ angular.module('favoriteApp', [])
 
 
         $scope.validate = function() {
-            $http.post('api/category/' + $scope.favorite.category + '/favorites' , {id: null, name:$scope.favorite.name, link: $scope.favorite.link }).then(
+            $http.post('api/category/' + $scope.favorite.category + '/favorites' , {id: $scope.favorite.id, name:$scope.favorite.name, link: $scope.favorite.link }).then(
                 function() {
                     $scope.refresh();
                     $scope.setMode('view');
@@ -49,6 +62,8 @@ angular.module('favoriteApp', [])
             $http.delete('api/favorites/' +id).then(
                 function(){
                     $scope.refresh();
+
+                    console.log($scope.test)
                 }
             )
         }
