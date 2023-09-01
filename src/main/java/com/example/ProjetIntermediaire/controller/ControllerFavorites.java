@@ -28,7 +28,7 @@ class ControllerFavorites {
     @DeleteMapping(path = "/favorites/{ids}")
     void deleteMultiple(@PathVariable String ids){
         favoritesService.deleteMultiple(
-                Arrays.stream(ids.split("-")).map(Long::valueOf).toList()
+                Arrays.stream(ids.split(",")).map(Long::valueOf).toList()
         );
     }
 

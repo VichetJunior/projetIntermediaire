@@ -13,6 +13,9 @@ angular.module('favoriteApp', [])
 
         $scope.favorite = {};
 
+        $scope.favoritesToDelete = [];
+        $scope.idToDelete = [];
+
         $scope.setMode = function(text) {
             if (text === 'creation') {
                 $scope.realCategories = $scope.categories.filter(function(c) { return c.id !== 0 });
@@ -39,12 +42,27 @@ angular.module('favoriteApp', [])
             $scope.setMode('edition');
 
 
-//            console.log(favorite.id, favorite.name, favorite.link, favorite.updatedDate, favorite.category)
         }
 
         $scope.cancel = function() {
             $scope.setMode('view');
         }
+
+        $scope.deleteMultiple = function(){
+        $scope.favoritesToDelete = $scope.favorites.filter((f) => f.selected === true);
+        $scope.idToDelete = $scope.favoritesToDelete.map((f) => f.id)
+        if($scope.idToDelete.length == 0){
+            console.log("No item selected, please select at least one item")
+
+            alert("No item selected, please select at least one item");
+        }else{
+                $http.delete('api/favorites/' + $scope.idToDelete.join(',')).then(function(){
+                    $scope.refresh();
+                })
+                    console.log($scope.idToDelete)
+            }
+        }
+
 
 
         $scope.validate = function() {

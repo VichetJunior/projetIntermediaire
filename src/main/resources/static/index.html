@@ -93,10 +93,12 @@
                     <td colspan="4">No data !</td>
                   </tr>
                   <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
-                    <td> <input type="checkbox"></td>
+                    <!--///////////////////////////////////////////////////////-->
+                    <td> <input type="checkbox" data-ng-model="f.selected"></td>
+                    <!--///////////////////////////////////////////////////////-->
                     <td>{{ f.id }}</td>
                     <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.name }} </a></td>
-                    <td>{{ f.category.id}}</td>
+                    <td>{{ f.category.name}}</td>
                     <td>{{ f.updatedDate | date: 'yyyy-MM-dd' }}</td>
 
                     <td><button class="button is-info" data-ng-click=update(f)>Update</button></td>
@@ -107,7 +109,10 @@
             </div>
           </div>
         </div>
+        <!--////////////////////////////////////////-->
+        <button class="button is-primary" data-ng-click="deleteMultiple()">Delete multiple</button>
       </div>
+      <!--////////////////////////////////////////-->
     </section>
   </body>
 </html>

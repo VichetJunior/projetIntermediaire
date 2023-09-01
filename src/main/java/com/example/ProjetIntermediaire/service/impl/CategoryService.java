@@ -21,18 +21,6 @@ public class CategoryService implements ICategoryService {
         this.favoritesRepository = favoritesRepository;
     }
 
-//    @Override
-//    public List<CategoryListItem> findAllCategory(){
-//        return categoryRepository.findAll()
-//                .stream()
-//                .map(p -> {
-//                    long nb = favoritesRepository.findAll().stream().filter(f -> f.getCategory().getId().equals(p.getId())).count();
-//                    return new CategoryListItem(p.getId(),p.getName(),nb);
-//                })
-//                .sorted(Comparator.comparing(CategoryListItem::getName))
-//                .toList();
-//    }
-
     @Override
     public List<CategoryListItem> findAllCategory(){
         return categoryRepository.findAll()
