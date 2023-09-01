@@ -12,7 +12,7 @@ angular.module('favoriteApp', [])
         $scope.mode = 'view';
 
         $scope.favorite = {};
-
+        $scope.category = {};
         $scope.favoritesToDelete = [];
         $scope.idToDelete = [];
 
@@ -27,11 +27,8 @@ angular.module('favoriteApp', [])
                     category: $scope.realCategories[idx].id
                 }
             }
-
-            if (text === 'edit'){
-                console.log('its ok')
-            }
             $scope.mode = text;
+            console.log($scope.mode)
         }
 
         $scope.update = function(f){
@@ -64,18 +61,35 @@ angular.module('favoriteApp', [])
         }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
 
         $scope.validate = function() {
-            $http.post('api/category/' + $scope.favorite.category + '/favorites' , {id: $scope.favorite.id, name:$scope.favorite.name, link: $scope.favorite.link }).then(
-                function() {
-                    $scope.refresh();
-                    $scope.setMode('view');
-                }, function(error) {
-                    alert(error.data.message);
-                }
-            )
+        if ($scope.mode == 'creation' || $scope.mode == 'edition'){
+                    $http.post('api/category/' + $scope.favorite.category + '/favorites' , {id: $scope.favorite.id, name:$scope.favorite.name, link: $scope.favorite.link }).then(
+                        function() {
+                            $scope.refresh();
+                            $scope.setMode('view');
+                        }, function(error) {
+                            alert(error.data.message);
+                        }
+                    )
+                    console.log("test")
+        }
+        if ($scope.mode == 'creation category'){
+                    $http.post('api/categories', {id: null, name:$scope.category.name}).then(
+                        function(){
+                           $scope.refresh();
+                            $scope.setMode('view');
+                        }, function(error) {
+                            alert(error.data.message);
+                        }
+                    )
+            console.log("validate creation category")
         }
 
+
+        }
+//////////////////////////////////////////////////////////////////////////////////////////
         $scope.delete = function(id) {
             $http.delete('api/favorites/' +id).then(
                 function(){

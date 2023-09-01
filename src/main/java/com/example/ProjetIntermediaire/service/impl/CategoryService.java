@@ -1,6 +1,9 @@
 package com.example.ProjetIntermediaire.service.impl;
 
+import com.example.ProjetIntermediaire.dto.CategoryDefinition;
+import com.example.ProjetIntermediaire.dto.CategoryItem;
 import com.example.ProjetIntermediaire.dto.CategoryListItem;
+import com.example.ProjetIntermediaire.persistance.entity.Category;
 import com.example.ProjetIntermediaire.persistance.repository.CategoryRepository;
 import com.example.ProjetIntermediaire.persistance.repository.FavoritesRepository;
 import com.example.ProjetIntermediaire.service.ICategoryService;
@@ -31,5 +34,11 @@ public class CategoryService implements ICategoryService {
                 })
                 .sorted(Comparator.comparing(CategoryListItem::getName))
                 .toList();
+    }
+
+    @Override
+    public CategoryItem createCategory(CategoryDefinition item) {
+        Category categoryToAdd = categoryRepository.save(new Category(item.getId(),item.getName()));
+        return new CategoryItem(categoryToAdd.getId(), categoryToAdd.getName());
     }
 }

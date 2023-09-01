@@ -1,8 +1,6 @@
 package com.example.ProjetIntermediaire.controller;
 
-import com.example.ProjetIntermediaire.dto.CategoryListItem;
-import com.example.ProjetIntermediaire.dto.FavoriteDefinition;
-import com.example.ProjetIntermediaire.dto.FavoriteItem;
+import com.example.ProjetIntermediaire.dto.*;
 import com.example.ProjetIntermediaire.persistance.entity.Category;
 import com.example.ProjetIntermediaire.service.ICategoryService;
 import com.example.ProjetIntermediaire.service.IFavoritesService;
@@ -29,4 +27,9 @@ public class ControllerCategory {
     FavoriteItem save (@PathVariable long categoryId, @RequestBody FavoriteDefinition favoriteToAdd){
         return favoritesService.save(categoryId, favoriteToAdd);
     }
+
+     @PostMapping(path = "/categories")
+     CategoryItem createCategory(@RequestBody CategoryDefinition categoryToAdd){
+        return categoryService.createCategory(categoryToAdd);
+     }
 }
