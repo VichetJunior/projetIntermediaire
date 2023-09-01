@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 @Getter
 @Setter
 @ToString
@@ -20,7 +20,7 @@ public class Category {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column (name = "name")
+    @Column (name = "name", unique = true)
     private String name;
 
 //    @ManyToOne

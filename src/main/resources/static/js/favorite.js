@@ -28,7 +28,6 @@ angular.module('favoriteApp', [])
                 }
             }
             $scope.mode = text;
-            console.log($scope.mode)
         }
 
         $scope.update = function(f){
@@ -49,8 +48,6 @@ angular.module('favoriteApp', [])
         $scope.favoritesToDelete = $scope.favorites.filter((f) => f.selected === true);
         $scope.idToDelete = $scope.favoritesToDelete.map((f) => f.id)
         if($scope.idToDelete.length == 0){
-            console.log("No item selected, please select at least one item")
-
             alert("No item selected, please select at least one item");
         }else{
                 $http.delete('api/favorites/' + $scope.idToDelete.join(',')).then(function(){
@@ -59,9 +56,6 @@ angular.module('favoriteApp', [])
                     console.log($scope.idToDelete)
             }
         }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
 
         $scope.validate = function() {
         if ($scope.mode == 'creation' || $scope.mode == 'edition'){
@@ -77,27 +71,47 @@ angular.module('favoriteApp', [])
         }
         if ($scope.mode == 'creation category'){
                     $http.post('api/categories', {id: null, name:$scope.category.name}).then(
+
                         function(){
+                        Swal.fire({
+                          position: 'center',
+                          icon: 'success',
+                          title: 'Your category has been created',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
                            $scope.refresh();
                             $scope.setMode('view');
                         }, function(error) {
                             alert(error.data.message);
                         }
                     )
-            console.log("validate creation category")
         }
-
-
         }
-//////////////////////////////////////////////////////////////////////////////////////////
         $scope.delete = function(id) {
-            $http.delete('api/favorites/' +id).then(
-                function(){
-                    $scope.refresh();
-
-                    console.log($scope.test)
-                }
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+                      $http.delete('api/favorites/' +id).then(
+                          function(){
+                              $scope.refresh();
+                          }
+                      )
+          Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
             )
+          }
+        })
+
         }
 
         $scope.refresh = function() {
